@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "1.0.5",
@@ -35,10 +36,15 @@
     "zustand": "4.3.5"
   },
   "devDependencies": {
+    "@testing-library/react": "14.1.2",
     "@types/bcrypt": "5.0.0",
+    "@vitejs/plugin-react": "4.2.0",
     "autoprefixer": "10.4.13",
+    "happy-dom": "12.10.3",
+    "next-router-mock": "0.9.10",
     "postcss": "8.4.21",
-    "tailwindcss": "3.2.7"
+    "tailwindcss": "3.2.7",
+    "vitest": "0.34.6"
   },
   "volta": {
     "node": "18.17.0"
