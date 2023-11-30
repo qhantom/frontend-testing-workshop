@@ -1,36 +1,57 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next'
 
-import prisma from '@/libs/prismadb';
+import prisma from '@/libs/prismadb'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'DELETE') {
+    const { userId } = req.query
+
+    if (!userId || typeof userId !== 'string') {
+      return res.status(400).end()
+    }
+
+    try {
+      await prisma.user.delete({
+        where: {
+          id: userId,
+        },
+      })
+
+      return res.status(200).end()
+    } catch (error) {
+      console.log(error)
+      return res.status(400).end()
+    }
+  }
+
   if (req.method !== 'GET') {
-    return res.status(405).end();
+    return res.status(405).end()
   }
 
   try {
-    const { userId } = req.query;
+    const { userId } = req.query
 
     if (!userId || typeof userId !== 'string') {
-      throw new Error('Invalid ID');
+      throw new Error('Invalid ID')
     }
 
     const existingUser = await prisma.user.findUnique({
       where: {
-        id: userId
-      }
-    });
+        id: userId,
+      },
+    })
 
     const followersCount = await prisma.user.count({
       where: {
         followingIds: {
-          has: userId
-        }
-      }
+          has: userId,
+        },
+      },
     })
 
-    return res.status(200).json({ ...existingUser, followersCount });
+    return res.status(200).json({ ...existingUser, followersCount })
   } catch (error) {
-    console.log(error);
-    return res.status(400).end();
+    console.log(error)
+    return res.status(400).end()
   }
-};
+}
