@@ -5,7 +5,7 @@ import axios from "axios";
 // set of related tests or benchmarks and other nested suites
 describe("code snippet", () => {
   // alias 'test': defines a set of related expectations
-  it("should fetch data from a given URL and return it", async () => {
+  it("[CODEALONG] should fetch data from a given URL and return it", async () => {
     const url = "https://frachtwerk.de";
     const expectedData = { name: "Timo Test" };
 
@@ -14,12 +14,13 @@ describe("code snippet", () => {
 
     const result = await fetcher(url);
 
+    // Assertions
     expect(result).toEqual(expectedData);
     expect(axios.get).toHaveBeenCalledWith(url);
     expect(axios.get).toHaveBeenCalledTimes(1);
   });
 
-  it("should handle 404 response with error status codes", async () => {
+  it("[CODEALONG] should handle 404 response with error status codes", async () => {
     const url = "https://frachtwerk.de";
     const expectedError = new Error("Request failed with status code 404");
 
@@ -27,6 +28,8 @@ describe("code snippet", () => {
     vi.spyOn(axios, "get").mockRejectedValue(expectedError);
 
     await expect(fetcher(url)).rejects.toThrow(expectedError);
+
+    // Assertions
     expect(axios.get).toHaveBeenCalledWith(url);
     expect(axios.get).toHaveBeenCalledTimes(1);
   });

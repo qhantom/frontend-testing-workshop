@@ -53,8 +53,16 @@ const POST_DATA: Post = {
 // Setup mocks
 vi.mock("next/router", () => require("next-router-mock"));
 
+vi.mock("@/hooks/useLike", () => ({
+  __esModule: true,
+  default: vi.fn(() => ({
+    hasLiked: true,
+    toggleLike: vi.fn(),
+  })),
+}));
+
 describe("PostItem.tsx", () => {
-  it("[CODEALONG] should navigate to post details page when clicking on post", async () => {
+  it("should navigate to post details page when clicking on post", async () => {
     // Import code under test
     const PostItem = await import("./PostItem").then((m) => m.default);
 
@@ -70,14 +78,7 @@ describe("PostItem.tsx", () => {
     });
   });
 
-  it("[TODO] should render avatar, name, username, body, count likes and count comments", async () => {
-    // [ ] avatar
-    // [ ] name
-    // [ ] username
-    // [ ] body
-    // [ ] cound likes
-    // [ ] count comments
-
+  it("should render avatar, name, username, count likes and count comments", async () => {
     // Import code under test
     const PostItem = await import("./PostItem").then((m) => m.default);
 
@@ -85,12 +86,16 @@ describe("PostItem.tsx", () => {
     const { getByText, getByAltText } = render(<PostItem data={POST_DATA} />);
 
     // Assertions
-    // TODO ...
+    expect(getByAltText("Avatar")).toBeDefined();
+    expect(getByText("Timo Test")).toBeDefined();
+    expect(getByText("@Timo")).toBeDefined();
+    expect(getByText("This is a post")).toBeDefined();
+    expect(getByText("This is a post")).toBeDefined();
+    expect(getByText("123")).toBeDefined();
+    expect(getByText("999")).toBeDefined();
   });
 
-  it("[TODO] should render the relative 'created at' time", async () => {
-    // [ ] relative 'created at' time
-
+  it("should render the relative 'created at' time", async () => {
     // Import code under test
     const PostItem = await import("./PostItem").then((m) => m.default);
 
@@ -98,19 +103,24 @@ describe("PostItem.tsx", () => {
     const { getByText } = render(<PostItem data={POST_DATA} />);
 
     // Assertion
-    // TODO ...
+    expect(getByText("1 year")).toBeDefined();
   });
 
-  it("[TODO] should render a red heart if the logged in user has liked a post", async () => {
-    // [ ] red heart if the logged in user has liked a post
-
+  it("should render a red heart if the logged in user has liked a post", async () => {
     // Import code under test
     const PostItem = await import("./PostItem").then((m) => m.default);
 
     // Render component
     render(<PostItem data={POST_DATA} />);
 
-    // Assertions
-    // TODO ...
+    // Get SVGs
+    const [_, likeSvg] = document.querySelectorAll("svg");
+
+    // Get color of like SVG
+    const likeSvgColor = window
+      .getComputedStyle(likeSvg)
+      .getPropertyValue("color");
+
+    expect(likeSvgColor).toBe("red");
   });
 });

@@ -26,11 +26,17 @@ import useEditModal from "./useEditModal";
 // - ...
 
 describe("useEditModal.ts", () => {
-  it("should have initial state with isOpen set to false", () => {
-    // ...
+  it("[TODO] should have initial state with isOpen set to false", () => {
+    const { result } = renderHook(() => useEditModal());
+
+    // Assertions
+    // TODO ...
   });
 
-  it("should toggle the modal to open and close again", () => {
-    // ...
+  it("[TODO] should toggle the modal to open and close again", () => {
+    const { result } = renderHook(() => useEditModal());
+
+    // Assertions
+    // TODO ...
   });
 });
