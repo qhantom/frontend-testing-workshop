@@ -24,44 +24,53 @@ test.describe("Edit user", () => {
 
   test("It should edit the test user", async ({ page }) => {
     await page.getByText("Profile").click();
-    await page.getByText("Edit").click();
+    await page.getByRole("button", { name: "Edit" }).click();
 
     await expect(page.getByText("Save")).toBeVisible();
 
     await page
       .getByPlaceholder("Name", { exact: true })
       .fill("Test User Edited");
-    await page.getByPlaceholder("Username").fill("Test Moin");
+    await page.getByPlaceholder("Username").fill("TestUsername");
     await page.getByRole("button", { name: "Save" }).click();
+    await page.waitForLoadState("networkidle");
+
+    await expect(page.getByText("Updated")).toBeVisible();
+
+    await page.getByRole("button", { name: "Edit" }).click();
 
     await expect(page.getByPlaceholder("Name", { exact: true })).toHaveValue(
       "Test User Edited"
     );
-    await expect(page.getByPlaceholder("Username")).toHaveValue("Test Moin");
+    await expect(
+      page.getByPlaceholder("Username", { exact: true })
+    ).toHaveValue("TestUsername");
 
     await page.getByPlaceholder("Name", { exact: true }).fill(TEST_USER.name);
     await page.getByPlaceholder("Username").fill(TEST_USER.username);
   });
 
   test("It should follow a user named Gerrit", async ({ page }) => {
-    await page.getByText("Gerrit").click();
+    await page.getByText("Gerrit", { exact: true }).click();
+    await page.waitForLoadState("networkidle");
 
-    await expect(page.getByText("Follow")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Follow" })).toBeVisible();
 
-    await page.getByText("Follow").click();
+    await page.getByRole("button", { name: "Follow" }).click();
 
     await expect(page.getByText("Success")).toBeVisible();
     await expect(page.getByText("Unfollow")).toBeVisible();
   });
 
   test("It should unfollow a user named Gerrit", async ({ page }) => {
-    await page.getByText("Gerrit").click();
+    await page.getByText("Gerrit", { exact: true }).click();
+    await page.waitForLoadState("networkidle");
 
-    await expect(page.getByText("Unfollow")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Unfollow" })).toBeVisible();
 
-    await page.getByText("Unfollow").click();
+    await page.getByRole("button", { name: "Unfollow" }).click();
 
     await expect(page.getByText("Success")).toBeVisible();
-    await expect(page.getByText("Follow")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Follow" })).toBeVisible();
   });
 });
