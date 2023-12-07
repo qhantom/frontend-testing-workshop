@@ -8,14 +8,7 @@ register -> logout -> login -> delete user
 
 export const TEST_USER = {};
 
-test.describe("Register and login user", () => {
-  // visit page before each test
-  // register new user and expect logout to be visible
-  // login and expect logout to be visible
-});
-
-test.describe("Logout and delete user", () => {
-  // visit page and login before each test
-  // logout and expect login to be visible
-  // visit profile, click on edit, delete user and expect login to be visible
+test.describe("User Registration, Login, Logout, and Deletion", () => {
+  // Register a new user and login as the registered user
+  // Test the logout and delete new user
 });
